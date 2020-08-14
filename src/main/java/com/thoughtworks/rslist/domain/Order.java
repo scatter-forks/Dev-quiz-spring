@@ -17,5 +17,7 @@ public class Order implements Serializable {
     private Integer price;
     @NotNull
     private Integer num;
+    @NotNull
+    private Integer unit;
 
 }

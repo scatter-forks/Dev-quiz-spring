@@ -28,13 +28,14 @@ class OrderControllerTest {
 
     @Test
     void shouldAddOneOrder() throws Exception {
-//        OrderEntity orderEntity = OrderEntity.builder()
-//                .name("可乐")
-//                .price(3)
-//                .num(3)
-//                .unit("瓶")
-//                .build();
-//        orderRepository.save(orderEntity);
+        System.out.println("=======华丽的分割线=======");
+        OrderEntity orderEntity = OrderEntity.builder()
+                .name("可乐")
+                .price(3)
+                .num(3)
+                .unit("瓶")
+                .build();
+        orderRepository.save(orderEntity);
         System.out.println("=======华丽的分割线=======");
         mockMvc.perform(get("/product")) //.andExpect(jsonPath("$",is("sdsad")))
                 .andExpect(status().isOk());
