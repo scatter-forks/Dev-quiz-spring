@@ -24,21 +24,21 @@ public class OrderController {
     }
 
 
-    @GetMapping("/product")
+    @GetMapping("/order")
     public List<OrderEntity> addOneOrder() {
         List<OrderEntity> orderEntity = orderRepository.findAll();
         System.out.println(orderEntity.size());
         return orderEntity;
     }
 
-    @DeleteMapping("/product/{index}/delete")
+    @DeleteMapping("/order/{index}/delete")
     public ResponseEntity deleteOneOeder(@PathVariable Integer index) {
         orderRepository.deleteById(index);
         return ResponseEntity.ok().build();
 
     }
 
-    @PostMapping("/product/add")
+    @PostMapping("/order/add")
     public ResponseEntity addOrder(@RequestBody Order order) {
         // 如果商品已经在订单列表中 再次添加只会添加商品数量
         OrderEntity orderEntity;

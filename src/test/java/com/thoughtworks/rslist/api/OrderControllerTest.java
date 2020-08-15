@@ -59,14 +59,14 @@ class OrderControllerTest {
 
     @Test
     void shouldGetOrders() throws Exception {
-        mockMvc.perform(get("/product"))
+        mockMvc.perform(get("/order"))
                 .andExpect(jsonPath("$[0].name", is("可乐")))
                 .andExpect(status().isOk());
     }
 
     @Test
     void shouldDeleteOneOrder() throws Exception {
-        mockMvc.perform(delete("/product/1/delete"))
+        mockMvc.perform(delete("/order/1/delete"))
                 .andExpect(status().isOk());
         mockMvc.perform(get("/product"))
                 .andExpect(jsonPath("$.size()",is(1)))
@@ -79,7 +79,7 @@ class OrderControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(order);
 
-        mockMvc.perform(post("/product/add")
+        mockMvc.perform(post("/order/add")
                 .content(requestJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
