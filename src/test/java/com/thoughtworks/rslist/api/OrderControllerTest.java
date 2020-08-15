@@ -1,9 +1,13 @@
 package com.thoughtworks.rslist.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thoughtworks.rslist.domain.Order;
 import com.thoughtworks.rslist.entity.OrderEntity;
 import com.thoughtworks.rslist.repository.OrderRepository;
 import com.thoughtworks.rslist.repository.ProductRepository;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,6 +38,25 @@ class OrderControllerTest {
     ProductRepository productRepository;
 
 
+    @BeforeEach
+    void setUp() {
+        orderRepository.deleteAll();
+        OrderEntity orderEntity1 = OrderEntity.builder()
+                .name("可乐")
+                .price(3)
+                .num(3)
+                .unit("瓶")
+                .build();
+        OrderEntity orderEntity2 = OrderEntity.builder()
+                .name("可乐")
+                .price(3)
+                .num(5)
+                .unit("瓶")
+                .build();
+        orderRepository.save(orderEntity1);
+        orderRepository.save(orderEntity2);
+    }
+
     @Test
     void shouldGetOrders() throws Exception {
         mockMvc.perform(get("/product"))
@@ -48,6 +71,19 @@ class OrderControllerTest {
         mockMvc.perform(get("/product"))
                 .andExpect(jsonPath("$.size()",is(1)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldAddOneOrder() throws Exception {
+        Order order = new Order("雪碧",3,3,"瓶");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = objectMapper.writeValueAsString(order);
+
+        mockMvc.perform(post("/product/add")
+                .content(requestJson)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        assertEquals(3,orderRepository.findAll().size());
     }
 
 }

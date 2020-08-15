@@ -18,6 +18,6 @@ public class Order implements Serializable {
     @NotNull
     private Integer num;
     @NotNull
-    private Integer unit;
+    private String unit;
 
 }

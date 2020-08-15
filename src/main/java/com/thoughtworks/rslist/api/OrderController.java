@@ -1,14 +1,12 @@
 package com.thoughtworks.rslist.api;
 
+import com.thoughtworks.rslist.domain.Order;
 import com.thoughtworks.rslist.entity.OrderEntity;
 import com.thoughtworks.rslist.repository.OrderRepository;
 import com.thoughtworks.rslist.repository.ProductRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -24,27 +22,9 @@ public class OrderController {
         this.productRepository = productRepository;
     }
 
-    void setUp() {
-        OrderEntity orderEntity1 = OrderEntity.builder()
-                .name("可乐")
-                .price(3)
-                .num(3)
-                .unit("瓶")
-                .build();
-        OrderEntity orderEntity2 = OrderEntity.builder()
-                .name("可乐")
-                .price(3)
-                .num(5)
-                .unit("瓶")
-                .build();
-        orderRepository.save(orderEntity1);
-        orderRepository.save(orderEntity2);
-    }
-
 
     @GetMapping("/product")
     public List<OrderEntity> addOneOrder(){
-//        setUp();
         List<OrderEntity> orderEntity =  orderRepository.findAll();
         System.out.println(orderEntity.size());
         return orderEntity;
@@ -52,10 +32,22 @@ public class OrderController {
 
     @DeleteMapping("/product/{index}/delete")
     public ResponseEntity deleteOneOeder(@PathVariable Integer index){
-        setUp();
         orderRepository.deleteById(index);
         return ResponseEntity.ok().build();
 
+    }
+
+    @PostMapping("/product/add")
+    public ResponseEntity addOrder(@RequestBody Order order){
+        System.out.println(order.getName());
+        OrderEntity orderEntity = OrderEntity.builder()
+                .name(order.getName())
+                .price(order.getPrice())
+                .num(order.getNum())
+                .unit(order.getUnit())
+                .build();
+        orderRepository.save(orderEntity);
+        return ResponseEntity.ok().build();
     }
 
 }
