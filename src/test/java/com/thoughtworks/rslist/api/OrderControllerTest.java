@@ -48,7 +48,7 @@ class OrderControllerTest {
                 .unit("瓶")
                 .build();
         OrderEntity orderEntity2 = OrderEntity.builder()
-                .name("可乐")
+                .name("雪碧")
                 .price(3)
                 .num(5)
                 .unit("瓶")
@@ -83,7 +83,7 @@ class OrderControllerTest {
                 .content(requestJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-        assertEquals(3,orderRepository.findAll().size());
+        assertEquals(2,orderRepository.findAll().size());
     }
 
 }

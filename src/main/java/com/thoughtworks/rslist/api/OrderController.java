@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Validated
@@ -24,28 +25,36 @@ public class OrderController {
 
 
     @GetMapping("/product")
-    public List<OrderEntity> addOneOrder(){
-        List<OrderEntity> orderEntity =  orderRepository.findAll();
+    public List<OrderEntity> addOneOrder() {
+        List<OrderEntity> orderEntity = orderRepository.findAll();
         System.out.println(orderEntity.size());
         return orderEntity;
     }
 
     @DeleteMapping("/product/{index}/delete")
-    public ResponseEntity deleteOneOeder(@PathVariable Integer index){
+    public ResponseEntity deleteOneOeder(@PathVariable Integer index) {
         orderRepository.deleteById(index);
         return ResponseEntity.ok().build();
 
     }
 
     @PostMapping("/product/add")
-    public ResponseEntity addOrder(@RequestBody Order order){
-        System.out.println(order.getName());
-        OrderEntity orderEntity = OrderEntity.builder()
-                .name(order.getName())
-                .price(order.getPrice())
-                .num(order.getNum())
-                .unit(order.getUnit())
-                .build();
+    public ResponseEntity addOrder(@RequestBody Order order) {
+        // 如果商品已经在订单列表中 再次添加只会添加商品数量
+        OrderEntity orderEntity;
+        List<OrderEntity> temp = orderRepository.findByName(order.getName());
+        if (temp.size() == 0) {
+            orderEntity = OrderEntity.builder()
+                    .name(order.getName())
+                    .price(order.getPrice())
+                    .num(order.getNum())
+                    .unit(order.getUnit())
+                    .build();
+        }else {
+            orderEntity = temp.get(0);
+            Integer orginNum = orderEntity.getNum();
+            orderEntity.setNum(orginNum+order.getNum());
+        }
         orderRepository.save(orderEntity);
         return ResponseEntity.ok().build();
     }
