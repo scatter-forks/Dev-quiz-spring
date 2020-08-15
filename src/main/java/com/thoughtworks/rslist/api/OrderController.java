@@ -20,9 +20,27 @@ public class OrderController {
         this.productRepository = productRepository;
     }
 
+    void setUp() {
+        OrderEntity orderEntity1 = OrderEntity.builder()
+                .name("可乐")
+                .price(3)
+                .num(3)
+                .unit("瓶")
+                .build();
+        OrderEntity orderEntity2 = OrderEntity.builder()
+                .name("可乐")
+                .price(3)
+                .num(5)
+                .unit("瓶")
+                .build();
+        orderRepository.save(orderEntity1);
+        orderRepository.save(orderEntity2);
+    }
+
+
     @GetMapping("/product")
     public List<OrderEntity> addOneOrder(){
-        System.out.println("=======华丽的分割线=======");
+        setUp();
         List<OrderEntity> orderEntity =  orderRepository.findAll();
         System.out.println(orderEntity.size());
         return orderEntity;

@@ -3,16 +3,27 @@ package com.thoughtworks.rslist.api;
 import com.thoughtworks.rslist.entity.OrderEntity;
 import com.thoughtworks.rslist.repository.OrderRepository;
 import com.thoughtworks.rslist.repository.ProductRepository;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
+//import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -27,22 +38,11 @@ class OrderControllerTest {
 
 
     @Test
-    void shouldAddOneOrder() throws Exception {
-        System.out.println("=======华丽的分割线=======");
-        OrderEntity orderEntity = OrderEntity.builder()
-                .name("可乐")
-                .price(3)
-                .num(3)
-                .unit("瓶")
-                .build();
-        orderRepository.save(orderEntity);
-        System.out.println("=======华丽的分割线=======");
-        mockMvc.perform(get("/product")) //.andExpect(jsonPath("$",is("sdsad")))
+    void shouldGetOrders() throws Exception {
+        mockMvc.perform(get("/product"))
+                .andExpect(jsonPath("$[0].name", is("可乐")))
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    void shoudGetOrderList() {
-//
-//    }
+
 }

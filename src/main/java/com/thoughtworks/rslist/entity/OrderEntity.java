@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "order")
+@Table(name = "list")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class OrderEntity {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer orderId;
     private String name;
     private Integer price;
     private Integer num;
