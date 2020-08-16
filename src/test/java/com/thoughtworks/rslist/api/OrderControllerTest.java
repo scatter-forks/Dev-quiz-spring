@@ -68,7 +68,7 @@ class OrderControllerTest {
     void shouldDeleteOneOrder() throws Exception {
         mockMvc.perform(delete("/order/1/delete"))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/product"))
+        mockMvc.perform(get("/order"))
                 .andExpect(jsonPath("$.size()",is(1)))
                 .andExpect(status().isOk());
     }
