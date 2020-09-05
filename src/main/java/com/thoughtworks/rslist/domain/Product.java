@@ -12,6 +12,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Product implements Serializable {
     @NotNull
+    private String category;
+    @NotNull
     private String name;
     @NotNull
     private Integer price;

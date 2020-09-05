@@ -22,6 +22,7 @@ public class ProductService {
         ProductEntity productEntity;
         if (temp.size()==0){
             productEntity = ProductEntity.builder()
+                    .category(product.getCategory())
                     .name(product.getName())
                     .price(product.getPrice())
                     .imgUrl(product.getImgUrl())

@@ -31,24 +31,28 @@ class ProductControllerTest {
     void setUp() {
         productRepository.deleteAll();
         ProductEntity productEntity1 = ProductEntity.builder()
+                .category("蔬菜")
                 .name("洋葱")
                 .price(1)
                 .imgUrl("http")
                 .unit("斤")
                 .build();
         ProductEntity productEntity2 = ProductEntity.builder()
+                .category("蔬菜")
                 .name("茄子")
                 .price(3)
                 .imgUrl("http")
                 .unit("斤")
                 .build();
         ProductEntity productEntity3 = ProductEntity.builder()
+                .category("蔬菜")
                 .name("大米")
                 .price(5)
                 .imgUrl("http")
                 .unit("斤")
                 .build();
         ProductEntity productEntity4 = ProductEntity.builder()
+                .category("蔬菜")
                 .name("啤酒")
                 .price(3)
                 .imgUrl("http")
@@ -62,7 +66,7 @@ class ProductControllerTest {
 
     @Test
     void shouldAddOneProduct() throws Exception {
-        Product product = new Product("虾米", 20, "斤", "www");
+        Product product = new Product("蔬菜","虾米", 20, "斤", "www");
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(product);
         mockMvc.perform(post("/product/add")
@@ -73,7 +77,7 @@ class ProductControllerTest {
 
     @Test
     void shouldNotAddOneProductWhenExist() throws Exception {
-        Product product = new Product("啤酒", 20, "斤", "www");
+        Product product = new Product("蔬菜","啤酒", 20, "斤", "www");
         ObjectMapper objectMapper = new ObjectMapper();
         String requestJson = objectMapper.writeValueAsString(product);
         mockMvc.perform(post("/product/add")

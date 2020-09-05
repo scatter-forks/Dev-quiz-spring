@@ -20,6 +20,7 @@ public class ProductEntity {
     @Id
     @GeneratedValue
     private Integer proId;
+    private String category;
     private String name;
     private String imgUrl;
     private Integer price;
